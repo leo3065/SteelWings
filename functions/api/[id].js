@@ -23,10 +23,11 @@ export async function onRequestGet(context) {
         };
 
         let record_str = visit_record_kv.get(params);
+        let record;
         if (record_str === null) {
-            let record = [];
+            record = [];
         }else{
-            let record = JSON.parse(record_str);
+            record = JSON.parse(record_str);
         }
 
         record.push(latest_visit);
