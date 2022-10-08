@@ -34,7 +34,7 @@ export async function onRequestGet(context) {
         record = record.slice(-10);
 
         visit_record_kv.put(
-            params, JSON.stringify(record),
+            params.id, JSON.stringify(record),
             {'expirationTtl': /* expire time in seconds */ 60*60*24*28 /* 28 days */}
         );
 
