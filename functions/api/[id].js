@@ -16,10 +16,10 @@ export async function onRequestGet(context) {
         const visit_record_kv = env.VISIT_RECORD;
 
         let latest_visit = {
-            time: new Date(),
-            headers: Object.fromEntries(request.headers.entries()),
-            method: request.method,
-            url: request.url,
+            'time': new Date(),
+            'headers': Object.fromEntries(request.headers.entries()),
+            'method': request.method,
+            'url': request.url,
         };
 
         let record_str = visit_record_kv.get(params);
@@ -35,7 +35,7 @@ export async function onRequestGet(context) {
 
         visit_record_kv.put(
             params, JSON.stringify(record),
-            {expirationTtl: /* expire time in seconds */ 60*60*24*28 /* 28 days */}
+            {'expirationTtl': /* expire time in seconds */ 60*60*24*28 /* 28 days */}
         );
 
         return Response.redirect(image_path, 301);
