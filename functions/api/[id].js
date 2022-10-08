@@ -22,7 +22,7 @@ export async function onRequestGet(context) {
             'url': request.url,
         };
 
-        let record_str = visit_record_kv.get(params);
+        let record_str = visit_record_kv.get(params.id);
         let record;
         if (record_str === null) {
             record = [];
