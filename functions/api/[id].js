@@ -39,7 +39,7 @@ export async function onRequestGet(context) {
         );
 
         //return new Response(JSON.stringify(record));
-        return Response.redirect(image_path, 301);
+        return Response.redirect(image_path, 302);
     } catch (err) {
         //flatten the error
         let json = JSON.stringify(err)
