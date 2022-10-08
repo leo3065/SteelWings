@@ -9,32 +9,39 @@ export async function onRequestGet(context) {
         data, // arbitrary space for passing data between middlewares
     } = context;
 
-    let image_path = 'https://via.placeholder.com/150.png';
-    // image_path = './assets/images/1x1.png';
+    try {
+        let image_path = 'https://via.placeholder.com/150.png';
+        // image_path = './assets/images/1x1.png';
 
-    const visit_record_kv = env.VISIT_RECORD;
+        const visit_record_kv = env.VISIT_RECORD;
 
-    let latest_visit = {
-        time: new Date().getTime(),
-        headers: Object.fromEntries(request.headers.entries()),
-        method: request.method,
-        url: request.url,
-    };
+        let latest_visit = {
+            time: new Date().getTime(),
+            headers: Object.fromEntries(request.headers.entries()),
+            method: request.method,
+            url: request.url,
+        };
 
-    let record_str = visit_record_kv.get(params);
-    if (record_str === null) {
-        let record = [];
-    }else{
-        let record = json.parse(record_str);
+        let record_str = visit_record_kv.get(params);
+        if (record_str === null) {
+            let record = [];
+        }else{
+            let record = json.parse(record_str);
+        }
+
+        record.push(latest_visit);
+        record = record.slice(-10);
+
+        visit_record_kv.put(
+            params, value,
+            {expirationTtl: /* expire time in seconds */ 60*60*24*28 /* 28 days */}
+        );
+
+        return Response.redirect(image_path, 301);
+    } catch (err) {
+        //flatten the error
+        let json = JSON.stringify(err)
+        //return the error
+        return new Response(err);
     }
-
-    record.push(latest_visit);
-    record = record.slice(-10);
-
-    visit_record_kv.put(
-        params, value,
-        {expirationTtl: /* expire time in seconds */ 60*60*24*28 /* 28 days */}
-    );
-
-    return Response.redirect(image_path, 301);
 }
