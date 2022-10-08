@@ -16,8 +16,8 @@ export async function onRequestGet(context) {
         const visit_record_kv = env.VISIT_RECORD;
 
         let latest_visit = {
-            time: new Date().getTime(),
-            headers: Object.fromEntries(request.headers.entries()),
+            time: new Date().toJSON(),
+            headers: json.stringify(Object.fromEntries(request.headers.entries())),
             method: request.method,
             url: request.url,
         };
