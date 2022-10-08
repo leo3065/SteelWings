@@ -38,8 +38,8 @@ export async function onRequestGet(context) {
             {'expirationTtl': /* expire time in seconds */ 60*60*24*28 /* 28 days */}
         );
 
-        return new Response(JSON.stringify(record));
-        //return Response.redirect(image_path, 301);
+        //return new Response(JSON.stringify(record));
+        return Response.redirect(image_path, 301);
     } catch (err) {
         //flatten the error
         let json = JSON.stringify(err)
