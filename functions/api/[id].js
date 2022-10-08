@@ -12,7 +12,7 @@ export async function onRequestGet(context) {
     let image_path = 'https://via.placeholder.com/150.png';
     // image_path = './assets/images/1x1.png';
 
-    visit_record_kv = env.VISIT_RECORD;
+    const visit_record_kv = env.VISIT_RECORD;
 
     let latest_visit = {
         time: new Date().getTime(),
