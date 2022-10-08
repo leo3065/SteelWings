@@ -12,6 +12,8 @@ export async function onRequestGet(context) {
     let image_path = 'https://via.placeholder.com/150.png';
     // image_path = './assets/images/1x1.png';
 
+    visit_record_kv = env.VISIT_RECORD;
+
     let latest_visit = {
         time: new Date().getTime(),
         headers: Object.fromEntries(request.headers.entries()),
@@ -19,7 +21,7 @@ export async function onRequestGet(context) {
         url: request.url,
     };
 
-    let record_str = VISIT_RECORD.get(params);
+    let record_str = visit_record_kv.get(params);
     if (record_str === null) {
         let record = [];
     }else{
@@ -29,7 +31,7 @@ export async function onRequestGet(context) {
     record.push(latest_visit);
     record = record.slice(-10);
 
-    VISIT_RECORD.put(
+    visit_record_kv.put(
         params, value,
         {expirationTtl: /* expire time in seconds */ 60*60*24*28 /* 28 days */}
     );
