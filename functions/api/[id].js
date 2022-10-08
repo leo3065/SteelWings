@@ -17,7 +17,7 @@ export async function onRequestGet(context) {
 
         let latest_visit = {
             time: new Date().toJSON(),
-            headers: json.stringify(Object.fromEntries(request.headers.entries())),
+            headers: JSON.stringify(Object.fromEntries(request.headers.entries())),
             method: request.method,
             url: request.url,
         };
@@ -26,7 +26,7 @@ export async function onRequestGet(context) {
         if (record_str === null) {
             let record = [];
         }else{
-            let record = json.parse(record_str);
+            let record = JSON.parse(record_str);
         }
 
         record.push(latest_visit);
