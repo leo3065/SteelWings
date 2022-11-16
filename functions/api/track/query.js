@@ -13,12 +13,12 @@ export async function onRequestGet(context) {
 
     try {
         const visit_record_kv = env.VISIT_RECORD;
-        
+
         let record_str = await visit_record_kv.get(trace_key);
         if (record_str === null) {
             record_str = '{}';
         }
-        return Response(record_str);
+        return new Response(record_str);
     } catch (err) {
         //flatten the error
         let json = JSON.stringify(err);
