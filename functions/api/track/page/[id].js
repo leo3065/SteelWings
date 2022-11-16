@@ -34,7 +34,7 @@ export async function onRequestGet(context) {
         }
 
         record_cur.push(latest_visit);
-        record_cur = record_cur.slice(-10);
+        record_cur = record_cur.slice(-20);
 
         record_all[params.id] = record_cur
 
@@ -49,6 +49,6 @@ export async function onRequestGet(context) {
         //flatten the error
         let json = JSON.stringify(err)
         //return the error
-        return new Response(err, {'status': 418});
+        return new Response(err);
     }
 }
