@@ -9,6 +9,8 @@ export async function onRequestGet(context) {
         data, // arbitrary space for passing data between middlewares
     } = context;
 
+    let trace_key = 'visit_trace'
+
     try {
         let image_path = 'https://via.placeholder.com/150.png';
         // image_path = './assets/images/1x1.png';
@@ -22,19 +24,26 @@ export async function onRequestGet(context) {
             'url': request.url,
         };
 
-        let record_str = await visit_record_kv.get(params.id);
-        let record;
+        let record_str = await visit_record_kv.get(trace_key);
+        let record_all, record_cur;
         if (record_str === null) {
-            record = [];
+            record_all = {};
         }else{
-            record = JSON.parse(record_str);
+            record_all = JSON.parse(record_str);
+            if (params.id in all_record){
+                record_cur = record_all[params.id];
+            }else{
+                record_cur = [];
+            }
         }
 
-        record.push(latest_visit);
-        record = record.slice(-10);
+        record_cur.push(latest_visit);
+        record_cur = record_cur.slice(-10);
+
+        record_all[params.id] = record_cur
 
         await visit_record_kv.put(
-            params.id, JSON.stringify(record),
+            trace_key, JSON.stringify(record_all),
             {'expirationTtl': /* expire time in seconds */ 60*60*24*28 /* 28 days */}
         );
 
@@ -44,6 +53,6 @@ export async function onRequestGet(context) {
         //flatten the error
         let json = JSON.stringify(err)
         //return the error
-        return new Response(err);
+        return new Response(err, {'status': 418});
     }
 }
