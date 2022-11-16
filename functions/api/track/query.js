@@ -12,6 +12,8 @@ export async function onRequestGet(context) {
     let trace_key = env.TRACE_KEY;
 
     try {
+        const visit_record_kv = env.VISIT_RECORD;
+        
         let record_str = await visit_record_kv.get(trace_key);
         if (record_str === null) {
             record_str = '{}';
