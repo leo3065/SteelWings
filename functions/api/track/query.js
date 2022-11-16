@@ -9,17 +9,17 @@ export async function onRequestGet(context) {
         data, // arbitrary space for passing data between middlewares
     } = context;
 
-    let trace_key = 'visit_trace'
+    let trace_key = env.TRACE_KEY;
 
     try {
         let record_str = await visit_record_kv.get(trace_key);
         if (record_str === null) {
-            record_str = '{}'
+            record_str = '{}';
         }
         return Response(record_str);
     } catch (err) {
         //flatten the error
-        let json = JSON.stringify(err)
+        let json = JSON.stringify(err);
         //return the error
         return new Response(err);
     }

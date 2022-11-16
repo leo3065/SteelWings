@@ -9,7 +9,7 @@ export async function onRequestGet(context) {
         data, // arbitrary space for passing data between middlewares
     } = context;
 
-    let trace_key = 'visit_trace'
+    let trace_key = env.TRACE_KEY;
 
     try {
         let image_path = 'https://via.placeholder.com/150.png';
@@ -36,7 +36,7 @@ export async function onRequestGet(context) {
         record_cur.push(latest_visit);
         record_cur = record_cur.slice(-20);
 
-        record_all[params.id] = record_cur
+        record_all[params.id] = record_cur;
 
         await visit_record_kv.put(
             trace_key, JSON.stringify(record_all),
@@ -47,7 +47,7 @@ export async function onRequestGet(context) {
         return Response.redirect(image_path, 302);
     } catch (err) {
         //flatten the error
-        let json = JSON.stringify(err)
+        let json = JSON.stringify(err);
         //return the error
         return new Response(err);
     }
