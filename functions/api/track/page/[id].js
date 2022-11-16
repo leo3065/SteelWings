@@ -25,15 +25,11 @@ export async function onRequestGet(context) {
         };
 
         let record_str = await visit_record_kv.get(trace_key);
-        let record_all, record_cur;
-        if (record_str === null) {
-            record_all = {};
-        }else{
+        let record_all = {}, record_cur = [];
+        if (record_str !== null) {
             record_all = JSON.parse(record_str);
-            if (params.id in all_record){
+            if (params.id in record_all){
                 record_cur = record_all[params.id];
-            }else{
-                record_cur = [];
             }
         }
 
